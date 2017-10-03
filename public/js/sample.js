@@ -11145,7 +11145,7 @@ var Cerberus = function (_THREE$Object3D) {
 
 
     var loader = new THREE.DRACOLoader();
-    loader.load('./model/Cerberus.obj.drc', function (geometry) {
+    loader.load('./model/cerberus.obj.drc', function (geometry) {
       geometry.computeVertexNormals();
       var material = new THREE.MeshStandardMaterial({ vertexColors: THREE.VertexColors });
       var mesh = new THREE.Mesh(geometry, material);

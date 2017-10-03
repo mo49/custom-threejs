@@ -10,7 +10,7 @@ export default class Cerberus extends THREE.Object3D {
     super();
 
     const loader = new THREE.DRACOLoader();
-    loader.load('./model/Cerberus.obj.drc', geometry => {
+    loader.load('./model/cerberus.obj.drc', geometry => {
         geometry.computeVertexNormals();
         const material = new THREE.MeshStandardMaterial( { vertexColors: THREE.VertexColors } );
         const mesh = new THREE.Mesh( geometry, material );
