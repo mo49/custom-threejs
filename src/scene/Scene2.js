@@ -1,8 +1,7 @@
 import Camera from '../camera/Camera';
-import Cerberus from '../object/Cerberus';
-import PubSub from 'pubsub-js';
+import Duck from '../object/Duck';
 
-export default class SampleScene extends THREE.Scene {
+export default class Scene2 extends THREE.Scene {
 
   _camera;
   _cube;
@@ -21,18 +20,20 @@ export default class SampleScene extends THREE.Scene {
     directionaLight.position.set(0,30,10);
     this.add(directionaLight);
 
-    // Cerberus
-    this._cerberus = new Cerberus();
-    this.add(this._cerberus);
+    // Duck
+    this._duck = new Duck();
+    this.add(this._duck);
 
     // helper
     let axisHelper = new THREE.AxisHelper(200,50);
     this.add(axisHelper);
+    let gridHelper = new THREE.GridHelper(50,50);
+    this.add(gridHelper);
   }
 
   update(time,delta) {
     this._camera.update();
-    this._cerberus.update(time,delta);
+    this._duck.update(time,delta);
   }
 
 }

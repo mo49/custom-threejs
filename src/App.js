@@ -1,5 +1,6 @@
 import $ from 'jquery';
-import SampleScene from './scene/SampleScene';
+import Scene1 from './scene/Scene1';
+import Scene2 from './scene/Scene2';
 import Camera from './camera/Camera';
 import TimeAccumulator from './module/TimeAccumulator';
 import TimeSkipper from './module/TimeSkipper';
@@ -21,7 +22,7 @@ module.exports = class App {
     this._wrapper = document.getElementById('app');
 
     // シーン
-    this._scene = new SampleScene();
+    this._scene = new Scene1();
 
     // カメラ
     this._camera = Camera.instance;
@@ -36,6 +37,7 @@ module.exports = class App {
     this._resize();
     window.addEventListener('resize', this._resize);
 
+    this._initListener();
     this._start();
   }
 
@@ -44,6 +46,15 @@ module.exports = class App {
     this.timeAccumulator = new TimeAccumulator(this._update,App.FPS);
     this.timeSkipper = new TimeSkipper(this._render,App.FPS);
     this._tick();
+  }
+
+  _initListener() {
+    window.addEventListener('keydown', e => {
+      switch (e.keyCode) {
+        case 49: this._scene = new Scene1(); break;
+        case 50: this._scene = new Scene2();  break;
+      }
+    })
   }
 
   _update(time,delta) {

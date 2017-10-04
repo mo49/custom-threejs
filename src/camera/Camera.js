@@ -1,8 +1,3 @@
-// import * as THREE from 'three';
-
-/**
- * カメラのクラスです。
- */
 export default class Camera extends THREE.PerspectiveCamera {
 
   /** インスタンスを取得します。 */

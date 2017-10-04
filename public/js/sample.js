@@ -10828,9 +10828,13 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _SampleScene = require('./scene/SampleScene');
+var _Scene = require('./scene/Scene1');
 
-var _SampleScene2 = _interopRequireDefault(_SampleScene);
+var _Scene2 = _interopRequireDefault(_Scene);
+
+var _Scene3 = require('./scene/Scene2');
+
+var _Scene4 = _interopRequireDefault(_Scene3);
 
 var _Camera = require('./camera/Camera');
 
@@ -10862,7 +10866,7 @@ module.exports = (_temp = _class = function () {
     this._wrapper = document.getElementById('app');
 
     // シーン
-    this._scene = new _SampleScene2.default();
+    this._scene = new _Scene2.default();
 
     // カメラ
     this._camera = _Camera2.default.instance;
@@ -10877,6 +10881,7 @@ module.exports = (_temp = _class = function () {
     this._resize();
     window.addEventListener('resize', this._resize);
 
+    this._initListener();
     this._start();
   }
 
@@ -10887,6 +10892,20 @@ module.exports = (_temp = _class = function () {
       this.timeAccumulator = new _TimeAccumulator2.default(this._update, App.FPS);
       this.timeSkipper = new _TimeSkipper2.default(this._render, App.FPS);
       this._tick();
+    }
+  }, {
+    key: '_initListener',
+    value: function _initListener() {
+      var _this = this;
+
+      window.addEventListener('keydown', function (e) {
+        switch (e.keyCode) {
+          case 49:
+            _this._scene = new _Scene2.default();break;
+          case 50:
+            _this._scene = new _Scene4.default();break;
+        }
+      });
     }
   }, {
     key: '_update',
@@ -10937,7 +10956,7 @@ module.exports = (_temp = _class = function () {
   return App;
 }(), _class.FPS = 60, _class.DPR = window.devicePixelRatio || 1, _temp);
 
-},{"./camera/Camera":5,"./module/TimeAccumulator":6,"./module/TimeSkipper":7,"./scene/SampleScene":9,"jquery":2}],5:[function(require,module,exports){
+},{"./camera/Camera":5,"./module/TimeAccumulator":6,"./module/TimeSkipper":7,"./scene/Scene1":10,"./scene/Scene2":11,"jquery":2}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10952,11 +10971,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import * as THREE from 'three';
-
-/**
- * カメラのクラスです。
- */
 var Camera = function (_THREE$PerspectiveCam) {
   _inherits(Camera, _THREE$PerspectiveCam);
 
@@ -11145,7 +11159,7 @@ var Cerberus = function (_THREE$Object3D) {
 
 
     var loader = new THREE.DRACOLoader();
-    loader.load('./model/cerberus.obj.drc', function (geometry) {
+    loader.load('./model/draco/cerberus.obj.drc', function (geometry) {
       geometry.computeVertexNormals();
       var material = new THREE.MeshStandardMaterial({ vertexColors: THREE.VertexColors });
       var mesh = new THREE.Mesh(geometry, material);
@@ -11184,6 +11198,68 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _events = require('events');
+
+var _events2 = _interopRequireDefault(_events);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Duck = function (_THREE$Object3D) {
+  _inherits(Duck, _THREE$Object3D);
+
+  function Duck() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Duck);
+
+    var _this = _possibleConstructorReturn(this, (Duck.__proto__ || Object.getPrototypeOf(Duck)).call(this));
+
+    _this._angle = 0;
+
+
+    var loader = new THREE.GLTFLoader();
+    loader.load('./model/glTF/Duck.gltf', function (data) {
+      var gltf = data;
+      var obj = gltf.scene;
+      obj.scale.set(5, 5, 5);
+      obj.position.set(0, 0, 0);
+      _this.add(obj);
+    });
+    return _this;
+  }
+
+  _createClass(Duck, [{
+    key: 'update',
+    value: function update(time, delta) {
+      // 角度をインクリメント
+      this._angle += delta * Duck.ROTATION_SPEED;
+      var radian = this._angle * Math.PI / 180;
+
+      this.rotation.set(0, radian * 0.2, 0);
+    }
+  }]);
+
+  return Duck;
+}(THREE.Object3D);
+
+Duck.ROTATION_SPEED = 100;
+exports.default = Duck;
+
+},{"events":1}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _Camera = require('../camera/Camera');
 
 var _Camera2 = _interopRequireDefault(_Camera);
@@ -11204,16 +11280,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SampleScene = function (_THREE$Scene) {
-  _inherits(SampleScene, _THREE$Scene);
+var Scene1 = function (_THREE$Scene) {
+  _inherits(Scene1, _THREE$Scene);
 
-  function SampleScene() {
+  function Scene1() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    _classCallCheck(this, SampleScene);
+    _classCallCheck(this, Scene1);
 
     // カメラ
-    var _this = _possibleConstructorReturn(this, (SampleScene.__proto__ || Object.getPrototypeOf(SampleScene)).call(this));
+    var _this = _possibleConstructorReturn(this, (Scene1.__proto__ || Object.getPrototypeOf(Scene1)).call(this));
 
     _this._camera = _Camera2.default.instance;
     _this._camera.position.set(20, 10, 15);
@@ -11232,10 +11308,12 @@ var SampleScene = function (_THREE$Scene) {
     // helper
     var axisHelper = new THREE.AxisHelper(200, 50);
     _this.add(axisHelper);
+    var gridHelper = new THREE.GridHelper(50, 50);
+    _this.add(gridHelper);
     return _this;
   }
 
-  _createClass(SampleScene, [{
+  _createClass(Scene1, [{
     key: 'update',
     value: function update(time, delta) {
       this._camera.update();
@@ -11243,10 +11321,81 @@ var SampleScene = function (_THREE$Scene) {
     }
   }]);
 
-  return SampleScene;
+  return Scene1;
 }(THREE.Scene);
 
-exports.default = SampleScene;
+exports.default = Scene1;
 
-},{"../camera/Camera":5,"../object/Cerberus":8,"pubsub-js":3}]},{},[4])(4)
+},{"../camera/Camera":5,"../object/Cerberus":8,"pubsub-js":3}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Camera = require('../camera/Camera');
+
+var _Camera2 = _interopRequireDefault(_Camera);
+
+var _Duck = require('../object/Duck');
+
+var _Duck2 = _interopRequireDefault(_Duck);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Scene2 = function (_THREE$Scene) {
+  _inherits(Scene2, _THREE$Scene);
+
+  function Scene2() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Scene2);
+
+    // カメラ
+    var _this = _possibleConstructorReturn(this, (Scene2.__proto__ || Object.getPrototypeOf(Scene2)).call(this));
+
+    _this._camera = _Camera2.default.instance;
+    _this._camera.position.set(20, 10, 15);
+
+    // 環境光源
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    _this.add(ambientLight);
+    var directionaLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionaLight.position.set(0, 30, 10);
+    _this.add(directionaLight);
+
+    // Duck
+    _this._duck = new _Duck2.default();
+    _this.add(_this._duck);
+
+    // helper
+    var axisHelper = new THREE.AxisHelper(200, 50);
+    _this.add(axisHelper);
+    var gridHelper = new THREE.GridHelper(50, 50);
+    _this.add(gridHelper);
+    return _this;
+  }
+
+  _createClass(Scene2, [{
+    key: 'update',
+    value: function update(time, delta) {
+      this._camera.update();
+      this._duck.update(time, delta);
+    }
+  }]);
+
+  return Scene2;
+}(THREE.Scene);
+
+exports.default = Scene2;
+
+},{"../camera/Camera":5,"../object/Duck":9}]},{},[4])(4)
 });
