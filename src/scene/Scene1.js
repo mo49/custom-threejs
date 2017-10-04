@@ -12,7 +12,7 @@ export default class Scene1 extends THREE.Scene {
 
     // カメラ
     this._camera = Camera.instance;
-    this._camera.position.set(20,10,15);
+    this._camera.position.set(30, 20, 10);
 
     // 環境光源
     let ambientLight = new THREE.AmbientLight(0xffffff, 0.5);

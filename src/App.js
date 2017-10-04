@@ -52,7 +52,7 @@ module.exports = class App {
     window.addEventListener('keydown', e => {
       switch (e.keyCode) {
         case 49: this._scene = new Scene1(); break;
-        case 50: this._scene = new Scene2();  break;
+        case 50: this._scene = new Scene2(); break;
       }
     })
   }

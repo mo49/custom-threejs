@@ -1,7 +1,7 @@
 export default class Camera extends THREE.PerspectiveCamera {
 
-  /** インスタンスを取得します。 */
   static get instance() {
+    // 一回生成して各シーンで上書きできるようにする
     return Camera._instance || new Camera();
   }
 
@@ -18,11 +18,7 @@ export default class Camera extends THREE.PerspectiveCamera {
     Camera._instance = this;
   }
 
-  /**
-   * 毎フレームの更新をかけます。
-   */
   update() {
-    // 原点に注目
     this.lookAt(new THREE.Vector3(0, 0, 0));
   }
 }

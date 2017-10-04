@@ -10976,10 +10976,8 @@ var Camera = function (_THREE$PerspectiveCam) {
 
   _createClass(Camera, null, [{
     key: "instance",
-
-
-    /** インスタンスを取得します。 */
     get: function get() {
+      // 一回生成して各シーンで上書きできるようにする
       return Camera._instance || new Camera();
     }
 
@@ -11002,15 +11000,9 @@ var Camera = function (_THREE$PerspectiveCam) {
     return _this;
   }
 
-  /**
-   * 毎フレームの更新をかけます。
-   */
-
-
   _createClass(Camera, [{
     key: "update",
     value: function update() {
-      // 原点に注目
       this.lookAt(new THREE.Vector3(0, 0, 0));
     }
   }]);
@@ -11292,7 +11284,7 @@ var Scene1 = function (_THREE$Scene) {
     var _this = _possibleConstructorReturn(this, (Scene1.__proto__ || Object.getPrototypeOf(Scene1)).call(this));
 
     _this._camera = _Camera2.default.instance;
-    _this._camera.position.set(20, 10, 15);
+    _this._camera.position.set(30, 20, 10);
 
     // 環境光源
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
