@@ -12368,15 +12368,28 @@ var Cerberus = function (_THREE$Object3D) {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     (0, _classCallCheck3.default)(this, Cerberus);
 
+    // shader
     var _this = (0, _possibleConstructorReturn3.default)(this, (Cerberus.__proto__ || (0, _getPrototypeOf2.default)(Cerberus)).call(this));
 
     _this._angle = 0;
-
+    var vs = document.getElementById("vertexShader").textContent;
+    var fs = document.getElementById("fragmentShader").textContent;
+    _this.uniforms = {
+      time: { // 変数
+        type: 'f', // 型 float
+        value: 0.0 // 値
+      }
+    };
+    var material = new THREE.ShaderMaterial({
+      vertexShader: vs,
+      fragmentShader: fs,
+      uniforms: _this.uniforms
+    });
 
     var loader = new THREE.DRACOLoader();
     loader.load('./model/draco/cerberus.obj.drc', function (geometry) {
       geometry.computeVertexNormals();
-      var material = new THREE.MeshStandardMaterial({ vertexColors: THREE.VertexColors });
+      // const material = new THREE.MeshStandardMaterial( { vertexColors: THREE.VertexColors } );
       var mesh = new THREE.Mesh(geometry, material);
       mesh.castShadow = true;
       mesh.receiveShadow = true;
@@ -12390,6 +12403,8 @@ var Cerberus = function (_THREE$Object3D) {
   (0, _createClass3.default)(Cerberus, [{
     key: 'update',
     value: function update(time, delta) {
+      this.uniforms.time.value += 0.1;
+
       // 角度をインクリメント
       this._angle += delta * Cerberus.ROTATION_SPEED;
       var radian = this._angle * Math.PI / 180;
