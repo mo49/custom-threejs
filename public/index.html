@@ -1,53 +1,67 @@
-<!DOCTYPE html>
+
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  <style>
-    html, body {
+  <head>
+    <style>
+      html, body {
       width: 100%;
       height: 100%;
       margin: 0;
       padding: 0;
-    }
-
-    #app {
+      }
+      
+      #app {
       width: 100%;
       height: 100%;
-    }
-    .scenes{
+      }
+      .scenes{
       position: fixed;
       top: 0; right: 0;
       color: #333;
-    }
-    .scenes span{
+      }
+      .scenes span{
       background-color: #eee;
       padding: 10px;
       cursor: pointer;
-    }
-    .controller{
+      }
+      .controller{
       position: fixed;
       top: 0; left: 0;
       color: #333;
-    }
-    .controller span{
+      }
+      .controller span{
       background-color: #eee;
       padding: 10px;
       cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div id="app"></div>
-  <script src="./js/lib/three.min.js"></script>
-  <script src="./js/lib/loader/draco_decoder.js"></script>
-  <script src="./js/lib/loader/DRACOLoader.js"></script>
-  <script src="./js/lib/loader/GLTFLoader.js"></script>
-  <script src="./js/sample.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded',() => {
-      var app = new App();
-    })
-  </script>
-</body>
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- shader-->
+    <script id="vertexShader" type="x-shader/x-vertex">varying vec2 vUv;
+void main(void){
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">uniform float time;
+varying vec2 vUv;
+void main(void){
+    vec2 position = -1.0 + 2.0 * vUv;
+    float r = abs( sin( position.x * position.y + time / 3.0 ) );
+    float g = abs( sin( position.x * position.y + time / 2.0 ) );
+    float b = abs( sin( position.x * position.y + time / 1.0 ) );
+    vec3 color = time == 0.0 ? vec3( 1.0, 0.0, 0.0 ) : vec3( r, g, b ) ;
+    gl_FragColor = vec4( color, 1.0 );
+}
+
+    </script>
+    <script src="./js/lib/three.min.js"></script>
+    <script src="./js/lib/loader/draco_decoder.js"></script>
+    <script src="./js/lib/loader/DRACOLoader.js"></script>
+    <script src="./js/lib/loader/GLTFLoader.js"></script>
+    <script src="./js/script.js"></script>
+  </body>
 </html>
