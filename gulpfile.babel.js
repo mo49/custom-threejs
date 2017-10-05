@@ -38,7 +38,7 @@ gulp.task('browser-sync', () => {
         }
     });
     watch([`${SRC}/js/**/*.js`], gulp.series('watchify', browserSync.reload));
-    watch([`${SRC}/pug/**/*.pug`], gulp.series('pug', browserSync.reload));
+    watch([`${SRC}/pug/**/*`], gulp.series('pug', browserSync.reload));
 })
 gulp.task('serve', gulp.series('browser-sync'));
 
