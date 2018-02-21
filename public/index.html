@@ -46,7 +46,9 @@ void main(void){
 }
 
     </script>
-    <script id="fragmentShader" type="x-shader/x-fragment">uniform float time;
+    <script id="fragmentShader" type="x-shader/x-fragment">precision mediump float;
+
+uniform float time;
 varying vec2 vUv;
 void main(void){
     vec2 position = -1.0 + 2.0 * vUv;
