@@ -27,6 +27,7 @@
     "lodash": "^4.17.4",
     "pubsub-js": "^1.5.7",
     "three": "^0.87.0",
+    "three-orbitcontrols": "^2.1.2",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0"
   }

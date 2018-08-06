@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Scene1 from './scene/Scene1';
 import Scene2 from './scene/Scene2';
+import Scene3 from './scene/Scene3';
 import Camera from './camera/Camera';
 import TimeAccumulator from './module/TimeAccumulator';
 import TimeSkipper from './module/TimeSkipper';
@@ -53,6 +54,7 @@ module.exports = class App {
       switch (e.keyCode) {
         case 49: this._scene = new Scene1(); break;
         case 50: this._scene = new Scene2(); break;
+        case 51: this._scene = new Scene3(); break;
       }
     })
   }

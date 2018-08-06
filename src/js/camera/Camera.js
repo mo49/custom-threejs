@@ -1,3 +1,5 @@
+import OrbitControls from "three-orbitcontrols";
+
 export default class Camera extends THREE.PerspectiveCamera {
 
   static get instance() {
@@ -14,6 +16,9 @@ export default class Camera extends THREE.PerspectiveCamera {
 
     this.position.y = 40;
     this.position.z = 30;
+
+    // OrbitControls
+    this.orbitControls = new OrbitControls(this);
 
     Camera._instance = this;
   }
